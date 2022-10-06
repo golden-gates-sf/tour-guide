@@ -1,0 +1,12 @@
+.header-about {
+  font-size: 40px;
+  background: rgb(242, 155, 33);
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 4px;
+}
+
+.about-text {
+  padding: 30px 60px;
+}

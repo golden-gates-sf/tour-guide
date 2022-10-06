@@ -1,0 +1,10 @@
+.main-header {
+    text-align: center;
+    padding: 20px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
