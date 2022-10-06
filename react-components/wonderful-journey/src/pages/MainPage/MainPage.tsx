@@ -1,9 +1,15 @@
 import React from 'react';
 import Header from 'components/Header/Header';
+import SearchBar from 'components/SearchBar/SearchBar';
 
 class MainPage extends React.Component {
   render() {
-    return <Header />;
+    return (
+      <div>
+        <Header />
+        <SearchBar />
+      </div>
+    );
   }
 }
 

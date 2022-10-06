@@ -1,0 +1,11 @@
+.searchbar-container {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.searchbar {
+    width: 400px;
+    border-radius: 20px;
+    padding: 1px 8px;
+}
