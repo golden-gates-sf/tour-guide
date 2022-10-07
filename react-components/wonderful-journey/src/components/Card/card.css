@@ -1,0 +1,45 @@
+.card {
+    width: 300px;
+    height: 400px;
+    background-color: rgb(146, 203, 223);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.752);
+}
+
+.card-img {
+    border-radius: 10px;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.categorie {
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    padding: 3px 6px;
+    color: aliceblue;
+}
+
+.title {
+    font-size: 24px;
+}
+
+.description {
+    flex: 1;
+    font-size: 18px;
+}
+
+.btn-read-more {
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    align-self: center;
+}
