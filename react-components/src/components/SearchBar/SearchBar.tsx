@@ -19,7 +19,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   }
 
   componentWillUnmount(): void {
-    localStorage.setItem('request', this.state.request);
+    if (this.state.request) localStorage.setItem('request', this.state.request);
   }
 
   render() {
