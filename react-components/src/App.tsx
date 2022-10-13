@@ -3,6 +3,7 @@ import AboutPage from './pages/AboutPage/AboutPage';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 import MainPage from 'pages/MainPage/MainPage';
 import { Route, Routes } from 'react-router-dom';
+
 // import './index.css';
 
 function App() {
