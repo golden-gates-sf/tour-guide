@@ -20,6 +20,7 @@ class SearchBar extends React.Component {
             this.request = e.target.value;
           }}
           defaultValue={this.request}
+          data-testid="searchbar-input"
         ></input>
       </div>
     );
