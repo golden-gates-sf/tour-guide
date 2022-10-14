@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from 'components/Header/Header';
 import SearchBar from 'components/SearchBar/SearchBar';
 import Card, { CardProps } from 'components/Card/Card';
 import LA from '../../img/los-angeles-california-city.jpg';
@@ -75,7 +74,6 @@ class MainPage extends React.Component {
   render() {
     return (
       <div>
-        <Header />
         <SearchBar />
         <div className="cards-container">
           {cardsArr.map((card, i) => (

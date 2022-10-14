@@ -1,12 +1,10 @@
 import React from 'react';
-import Header from 'components/Header/Header';
 import './about.css';
 
 class AboutPage extends React.Component {
   render() {
     return (
       <div>
-        <Header />
         <h2 className="header-about">About Us</h2>
         <p className="about-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec orci orci.
