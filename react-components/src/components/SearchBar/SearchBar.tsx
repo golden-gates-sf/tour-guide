@@ -11,15 +11,15 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
     super(props);
 
     this.state = { request: '' };
-    console.log('constr', localStorage.getItem('request'));
   }
 
   componentDidMount(): void {
-    this.setState({ request: localStorage.getItem('request') || '' });
+    const item = localStorage.getItem('request');
+    if (item) this.setState({ request: item });
   }
 
   componentWillUnmount(): void {
-    if (this.state.request) localStorage.setItem('request', this.state.request);
+    localStorage.setItem('request', this.state.request);
   }
 
   render() {
