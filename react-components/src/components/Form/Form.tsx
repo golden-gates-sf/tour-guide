@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import './form.css';
 
 const options = [
@@ -13,16 +13,30 @@ const options = [
 ];
 
 class Form extends React.Component {
+  titleRef: RefObject<HTMLInputElement>;
+  categoriesSelectRef: RefObject<HTMLSelectElement>;
+  descriptionRef: RefObject<HTMLTextAreaElement>;
+  imageRef: RefObject<HTMLInputElement>;
+
+  constructor(props: Record<string, unknown>) {
+    super(props);
+
+    this.titleRef = React.createRef();
+    this.categoriesSelectRef = React.createRef();
+    this.descriptionRef = React.createRef();
+    this.imageRef = React.createRef();
+  }
+
   render() {
     return (
       <form className="form-cards">
         <label>
           Title:
-          <input />
+          <input ref={this.titleRef} />
         </label>
         <label>
           Categories:
-          <select size={5} multiple>
+          <select size={5} ref={this.categoriesSelectRef} multiple>
             {options.map((el, i) => (
               <option value={el.value} key={i}>
                 {el.label}
@@ -32,13 +46,13 @@ class Form extends React.Component {
         </label>
         <label>
           Description:
-          <textarea className="text-description" />
+          <textarea className="text-description" ref={this.descriptionRef} />
         </label>
         <label>
           Import image:
           <input type="file" />
         </label>
-        <input type="submit" value="Submit" className="btn-submit"></input>
+        <input type="submit" value="Submit" className="btn-submit" ref={this.imageRef} />
       </form>
     );
   }
