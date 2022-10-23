@@ -1,0 +1,42 @@
+.form-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(79, 189, 189, 0.829);
+    gap: 14px;
+    padding: 20px;
+}
+
+input {
+    width: 600px;
+    height: 40px;
+    border-radius: 6px;
+    margin: 0 10px;
+    padding: 2px 7px;
+}
+
+.btn-submit {
+    width: 180px;
+    border: none;
+}
+
+.btn-submit:hover {
+    background-color: rgb(230, 162, 25);
+    color: #fff;
+    cursor: pointer;
+}
+
+.text-description {
+    width: 600px;
+    height: 90px;
+    border-radius: 6px;
+    margin: 0 10px;
+    padding: 7px;
+}
+
+select {
+    padding: 5px;
+    width:600px;
+    margin: 0 10px;
+    border-radius: 6px;
+}
