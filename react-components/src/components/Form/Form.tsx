@@ -12,7 +12,15 @@ const options = [
   { value: 'luxury', label: 'Luxury' },
 ];
 
+type FormData = {
+  title: string;
+  categories: string[];
+  description: string;
+  picture: string;
+};
+
 class Form extends React.Component {
+  data: FormData;
   titleRef: RefObject<HTMLInputElement>;
   categoriesSelectRef: RefObject<HTMLSelectElement>;
   descriptionRef: RefObject<HTMLTextAreaElement>;
@@ -21,6 +29,12 @@ class Form extends React.Component {
   constructor(props: Record<string, unknown>) {
     super(props);
 
+    this.data = {
+      title: '',
+      categories: [''],
+      description: '',
+      picture: '',
+    };
     this.titleRef = React.createRef();
     this.categoriesSelectRef = React.createRef();
     this.descriptionRef = React.createRef();
@@ -29,7 +43,15 @@ class Form extends React.Component {
 
   render() {
     return (
-      <form className="form-cards">
+      <form
+        className="form-cards"
+        onSubmit={(e) => {
+          e.preventDefault();
+          this.data.title = this.titleRef.current?.value || '';
+          this.data.description = this.descriptionRef.current?.value || '';
+          this.data.picture = this.imageRef.current?.value || '';
+        }}
+      >
         <label>
           Title:
           <input ref={this.titleRef} />
@@ -50,9 +72,9 @@ class Form extends React.Component {
         </label>
         <label>
           Import image:
-          <input type="file" />
+          <input type="file" ref={this.imageRef} />
         </label>
-        <input type="submit" value="Submit" className="btn-submit" ref={this.imageRef} />
+        <input type="submit" value="Submit" className="btn-submit" />
       </form>
     );
   }
