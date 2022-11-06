@@ -1,19 +1,9 @@
 import React, { RefObject } from 'react';
 import Card from 'components/Card/Card';
-import './form.css';
-import '../../pages/MainPage/mainPage.css';
+import Select from './Select';
 import DefaultPic from '../../img/defaultPic.jpg';
-
-const options = [
-  { value: 'europe', label: 'Europe' },
-  { value: 'usa', label: 'USA' },
-  { value: 'nature', label: 'Nature' },
-  { value: 'sea', label: 'Sea' },
-  { value: 'city', label: 'City' },
-  { value: 'mountains', label: 'Mountains' },
-  { value: 'australia', label: 'Australia' },
-  { value: 'luxury', label: 'Luxury' },
-];
+import '../../pages/MainPage/mainPage.css';
+import './form.css';
 
 type FormData = {
   title: string;
@@ -39,7 +29,7 @@ class Form extends React.Component<FormProps, FormState> {
 
     this.data = {
       picture: '',
-      categories: [''],
+      categories: [],
       title: '',
       description: '',
     };
@@ -65,6 +55,14 @@ class Form extends React.Component<FormProps, FormState> {
             images.length > 0
               ? (this.data.picture = URL.createObjectURL(images[0]))
               : (this.data.picture = DefaultPic);
+            if (this.categoriesSelectRef.current) {
+              const optionsArray = Array.from(this.categoriesSelectRef.current?.options);
+              console.log(optionsArray, this.categoriesSelectRef.current);
+              this.data.categories = optionsArray
+                .filter(({ selected: s }) => s)
+                .map((el) => el.value);
+            }
+            console.log(this.categoriesSelectRef);
             this.setState({ isSubmitted: true });
           }}
         >
@@ -74,13 +72,7 @@ class Form extends React.Component<FormProps, FormState> {
           </label>
           <label>
             Categories:
-            <select size={5} ref={this.categoriesSelectRef} multiple>
-              {options.map((el, i) => (
-                <option value={el.value} key={i}>
-                  {el.label}
-                </option>
-              ))}
-            </select>
+            <Select propRef={this.categoriesSelectRef} />
           </label>
           <label>
             Description:

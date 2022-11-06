@@ -77,7 +77,7 @@ class MainPage extends React.Component {
         <SearchBar />
         <div className="cards-container">
           {cardsArr.map((card, i) => (
-            <Card ref={undefined} key={i} {...card} />
+            <Card key={i} {...card} />
           ))}
         </div>
       </div>
