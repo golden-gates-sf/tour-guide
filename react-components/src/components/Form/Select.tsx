@@ -24,7 +24,7 @@ class Select extends React.Component<SelectProps> {
     return (
       <select size={5} ref={this.props.propRef} multiple>
         {options.map((el, i) => (
-          <option value={el.value} key={i}>
+          <option value={el.label} key={i}>
             {el.label}
           </option>
         ))}
