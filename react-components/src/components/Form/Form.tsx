@@ -7,7 +7,10 @@ import './form.css';
 
 type FormProps = Record<string, unknown>;
 interface FormState {
-  isSubmitted: boolean;
+  isTitleIncorrect: boolean;
+  isDescriptionIncorrect: boolean;
+  titleMessageError: boolean;
+  descriptionMessageError: boolean;
   cards: CardProps[];
 }
 
@@ -25,7 +28,10 @@ class Form extends React.Component<FormProps, FormState> {
     this.descriptionRef = React.createRef();
     this.imageRef = React.createRef();
     this.state = {
-      isSubmitted: false,
+      isTitleIncorrect: true,
+      isDescriptionIncorrect: true,
+      titleMessageError: false,
+      descriptionMessageError: false,
       cards: [],
     };
   }
@@ -54,28 +60,75 @@ class Form extends React.Component<FormProps, FormState> {
               data.categories = optionsArray.filter(({ selected: s }) => s).map((el) => el.value);
             }
             const newArrCards = [...this.state.cards, data];
-            console.log(newArrCards);
-            this.setState({ isSubmitted: true, cards: [...newArrCards] });
-            console.log(this.state.cards);
+            this.setState({ cards: [...newArrCards] });
           }}
         >
-          <label>
-            Title:
-            <input ref={this.titleRef} />
-          </label>
+          <div className="input-container">
+            <label>
+              Title:
+              <input
+                onChange={({ target }) => {
+                  if (target.value.length > 3 && target.value.length < 20) {
+                    this.setState({ isTitleIncorrect: false });
+                  } else this.setState({ isTitleIncorrect: true });
+                }}
+                onBlur={() => {
+                  if (this.state.isTitleIncorrect) this.setState({ titleMessageError: true });
+                  else this.setState({ titleMessageError: false });
+                }}
+                ref={this.titleRef}
+              />
+            </label>
+            {this.state.titleMessageError ? (
+              <span className="error-message" id="title-error-message">
+                Data is incorrect
+              </span>
+            ) : (
+              ''
+            )}
+          </div>
           <label>
             Categories:
             <Select propRef={this.categoriesSelectRef} />
           </label>
-          <label>
-            Description:
-            <textarea className="text-description" ref={this.descriptionRef} />
-          </label>
+          <div className="input-container">
+            <label>
+              Description:
+              <textarea
+                className="text-description"
+                onChange={({ target }) => {
+                  if (target.value.length > 10 && target.value.length < 50) {
+                    this.setState({ isDescriptionIncorrect: false });
+                  } else {
+                    this.setState({ isDescriptionIncorrect: true });
+                  }
+                }}
+                onBlur={() => {
+                  if (this.state.isDescriptionIncorrect)
+                    this.setState({ descriptionMessageError: true });
+                  else this.setState({ descriptionMessageError: false });
+                }}
+                ref={this.descriptionRef}
+              />
+            </label>
+            {this.state.descriptionMessageError ? (
+              <span className="error-message" id="description-error-message">
+                Data is incorrect
+              </span>
+            ) : (
+              ''
+            )}
+          </div>
           <label>
             Import image:
             <input type="file" accept=".png, .jpg, .jpeg" ref={this.imageRef} />
           </label>
-          <input type="submit" value="Submit" className="btn-submit" />
+          <input
+            type="submit"
+            value="Submit"
+            disabled={this.state.isTitleIncorrect || this.state.isDescriptionIncorrect}
+            className="btn-submit"
+          />
         </form>
         <div className="cards-container">
           {this.state.cards.map((card, i) => (
