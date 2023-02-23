@@ -1,23 +1,27 @@
-#title-error-message {
-  padding-left: 60px;
-}
-
-#description-error-message {
-  padding-left: 100px;
-}
-
 input {
   width: 600px;
   height: 40px;
   border-radius: 6px;
-  margin: 0 10px;
   padding: 2px 7px;
+}
+
+.input-label {
+  display: inline-block;
+  min-width: 90px;
+}
+
+.input-message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: flex;
 }
 
 select {
   padding: 5px;
   width: 600px;
-  margin: 0 10px;
   border-radius: 6px;
 }
 
@@ -26,10 +30,15 @@ select {
   border: none;
 }
 
-.btn-submit:hover {
+.btn-submit:hover:not(:disabled) {
   background-color: rgb(230, 162, 25);
   color: #fff;
   cursor: pointer;
+  transition: all .2s ease-out;
+}
+
+.btn-submit:disabled {
+  cursor: not-allowed;
 }
 
 .error-message {
@@ -47,10 +56,37 @@ select {
   padding: 20px;
 }
 
+.form-content-container {
+  display:grid;
+  gap: 20px;
+}
+
 .text-description {
   width: 600px;
   height: 90px;
   border-radius: 6px;
-  margin: 0 10px;
   padding: 7px;
 }
+
+.submit-container {
+  position: relative;
+}
+
+.success-message-container {
+  width: 150px;
+  position: absolute;
+  bottom: 10px;
+  left: 220px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-message {
+  color: #25AE88;
+  /* position: absolute;
+  padding-top: 10px;
+  padding-left: 50px; */
+}
+

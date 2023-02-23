@@ -4,12 +4,13 @@ import Select from './Select';
 import DefaultPic from '../../img/defaultPic.jpg';
 import '../../pages/MainPage/mainPage.css';
 import './form.css';
+import SuccessTick from '../../img/success-tick.svg';
 
 type FormProps = Record<string, unknown>;
 interface FormState {
   isTitleIncorrect: boolean;
-  isDescriptionIncorrect: boolean;
   titleMessageError: boolean;
+  isDescriptionIncorrect: boolean;
   descriptionMessageError: boolean;
   cards: CardProps[];
 }
@@ -29,8 +30,8 @@ class Form extends React.Component<FormProps, FormState> {
     this.imageRef = React.createRef();
     this.state = {
       isTitleIncorrect: true,
-      isDescriptionIncorrect: true,
       titleMessageError: false,
+      isDescriptionIncorrect: true,
       descriptionMessageError: false,
       cards: [],
     };
@@ -63,72 +64,80 @@ class Form extends React.Component<FormProps, FormState> {
             this.setState({ cards: [...newArrCards] });
           }}
         >
-          <div className="input-container">
+          <div className="form-content-container">
+            <div className="input-container">
+              <label>
+                <span className="input-label">Title:</span>
+                <div className="input-message-container">
+                  <input
+                    onChange={({ target }) => {
+                      if (target.value.length > 3 && target.value.length < 20) {
+                        this.setState({ isTitleIncorrect: false });
+                      } else this.setState({ isTitleIncorrect: true });
+                    }}
+                    onBlur={() => {
+                      if (this.state.isTitleIncorrect) this.setState({ titleMessageError: true });
+                      else this.setState({ titleMessageError: false });
+                    }}
+                    ref={this.titleRef}
+                  />
+                  {this.state.titleMessageError ? (
+                    <span className="error-message">Data is incorrect</span>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </label>
+            </div>
             <label>
-              Title:
-              <input
-                onChange={({ target }) => {
-                  if (target.value.length > 3 && target.value.length < 20) {
-                    this.setState({ isTitleIncorrect: false });
-                  } else this.setState({ isTitleIncorrect: true });
-                }}
-                onBlur={() => {
-                  if (this.state.isTitleIncorrect) this.setState({ titleMessageError: true });
-                  else this.setState({ titleMessageError: false });
-                }}
-                ref={this.titleRef}
-              />
+              <span className="input-label">Categories:</span>
+              <Select propRef={this.categoriesSelectRef} />
             </label>
-            {this.state.titleMessageError ? (
-              <span className="error-message" id="title-error-message">
-                Data is incorrect
-              </span>
-            ) : (
-              ''
-            )}
-          </div>
-          <label>
-            Categories:
-            <Select propRef={this.categoriesSelectRef} />
-          </label>
-          <div className="input-container">
+            <div className="input-container">
+              <label>
+                <span className="input-label">Description:</span>
+                <div className="input-message-container">
+                  <textarea
+                    className="text-description"
+                    onChange={({ target }) => {
+                      if (target.value.length > 10 && target.value.length < 50) {
+                        this.setState({ isDescriptionIncorrect: false });
+                      } else {
+                        this.setState({ isDescriptionIncorrect: true });
+                      }
+                    }}
+                    onBlur={() => {
+                      if (this.state.isDescriptionIncorrect)
+                        this.setState({ descriptionMessageError: true });
+                      else this.setState({ descriptionMessageError: false });
+                    }}
+                    ref={this.descriptionRef}
+                  />
+                  {this.state.descriptionMessageError ? (
+                    <span className="error-message">Data is incorrect</span>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </label>
+            </div>
             <label>
-              Description:
-              <textarea
-                className="text-description"
-                onChange={({ target }) => {
-                  if (target.value.length > 10 && target.value.length < 50) {
-                    this.setState({ isDescriptionIncorrect: false });
-                  } else {
-                    this.setState({ isDescriptionIncorrect: true });
-                  }
-                }}
-                onBlur={() => {
-                  if (this.state.isDescriptionIncorrect)
-                    this.setState({ descriptionMessageError: true });
-                  else this.setState({ descriptionMessageError: false });
-                }}
-                ref={this.descriptionRef}
-              />
+              <span className="input-label">Import image:</span>
+              <input type="file" accept=".png, .jpg, .jpeg" ref={this.imageRef} />
             </label>
-            {this.state.descriptionMessageError ? (
-              <span className="error-message" id="description-error-message">
-                Data is incorrect
-              </span>
-            ) : (
-              ''
-            )}
           </div>
-          <label>
-            Import image:
-            <input type="file" accept=".png, .jpg, .jpeg" ref={this.imageRef} />
-          </label>
-          <input
-            type="submit"
-            value="Submit"
-            disabled={this.state.isTitleIncorrect || this.state.isDescriptionIncorrect}
-            className="btn-submit"
-          />
+          <div className="submit-container">
+            <input
+              type="submit"
+              value="Submit"
+              disabled={this.state.isTitleIncorrect || this.state.isDescriptionIncorrect}
+              className="btn-submit"
+            />
+            <div className="success-message-container">
+              <img src={SuccessTick} style={{ width: 20, height: 20 }} alt="Success" />
+              <span className="success-message">Card is added</span>
+            </div>
+          </div>
         </form>
         <div className="cards-container">
           {this.state.cards.map((card, i) => (
