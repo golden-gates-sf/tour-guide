@@ -81,13 +81,11 @@ class Select extends React.Component<SelectProps, SelectState> {
             <img src={DropListIcon} className="droplist-icon" />
           </div>
         </div>
-
-        {/* <p style={{
+        <p className="no-options-p" style={{
             visibility: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "visible" : "hidden",
             height: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "auto" : 0,
             padding: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "8px 7px" : 0,
-          }}>No options...</p> */}
-
+          }}>No options...</p>
         <select
           className="select-droplist"
           style={{

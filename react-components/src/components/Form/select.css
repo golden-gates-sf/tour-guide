@@ -60,6 +60,12 @@
     outline: none;
 }
 
+.no-options-p {
+    position: absolute;
+    z-index: 1100;
+    color: grey;
+}
+
 .select-droplist {
     background-color: #fff;
     border: 2px solid #000;
@@ -72,10 +78,6 @@
     visibility: hidden;
     transition: all 0.3s ease-in;
     overflow-y: auto;
-}
-
-.select-droplist p {
-    color: grey;
 }
 
 .select-option {
