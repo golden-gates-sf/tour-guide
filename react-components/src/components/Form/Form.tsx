@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import Card, { CardProps } from 'components/Card/Card';
-import Select from './Select';
+import Select, { SelectProps } from './Select';
 import DefaultPic from '../../img/defaultPic.jpg';
 import '../../pages/MainPage/mainPage.css';
 import './form.css';
@@ -13,11 +13,24 @@ interface FormState {
   isDescriptionIncorrect: boolean;
   descriptionMessageError: boolean;
   cards: CardProps[];
+  selectedTags: string[];
 }
+
+const selectOptions = [
+  { value: 'europe', label: 'Europe' },
+  { value: 'usa', label: 'USA' },
+  { value: 'nature', label: 'Nature' },
+  { value: 'sea', label: 'Sea' },
+  { value: 'city', label: 'City' },
+  { value: 'mountains', label: 'Mountains' },
+  { value: 'australia', label: 'Australia' },
+  { value: 'luxury', label: 'Luxury' },
+  { value: 'tropics', label: 'Tropics' },
+  { value: 'islands', label: 'Islands' },
+]
 
 class Form extends React.Component<FormProps, FormState> {
   titleRef: RefObject<HTMLInputElement>;
-  categoriesSelectRef: RefObject<HTMLSelectElement>;
   descriptionRef: RefObject<HTMLTextAreaElement>;
   imageRef: RefObject<HTMLInputElement>;
 
@@ -25,7 +38,6 @@ class Form extends React.Component<FormProps, FormState> {
     super(props);
 
     this.titleRef = React.createRef();
-    this.categoriesSelectRef = React.createRef();
     this.descriptionRef = React.createRef();
     this.imageRef = React.createRef();
     this.state = {
@@ -34,7 +46,12 @@ class Form extends React.Component<FormProps, FormState> {
       isDescriptionIncorrect: true,
       descriptionMessageError: false,
       cards: [],
+      selectedTags: [],
     };
+  }
+
+  setTags = (tags: string[]) => {
+    this.setState({ selectedTags: tags });
   }
 
   render() {
@@ -56,10 +73,7 @@ class Form extends React.Component<FormProps, FormState> {
             images.length > 0
               ? (data.picture = URL.createObjectURL(images[0]))
               : (data.picture = DefaultPic);
-            if (this.categoriesSelectRef.current) {
-              const optionsArray = Array.from(this.categoriesSelectRef.current?.options);
-              data.categories = optionsArray.filter(({ selected: s }) => s).map((el) => el.value);
-            }
+            data.categories = this.state.selectedTags.map(tag => selectOptions.find(el => el.value === tag)?.label || '');
             const newArrCards = [...this.state.cards, data];
             this.setState({ cards: [...newArrCards] });
           }}
@@ -91,7 +105,7 @@ class Form extends React.Component<FormProps, FormState> {
             </div>
             <label>
               <span className="input-label">Categories:</span>
-              <Select propRef={this.categoriesSelectRef} />
+              <Select options={selectOptions} getTags={this.setTags} />
             </label>
             <div className="input-container">
               <label>

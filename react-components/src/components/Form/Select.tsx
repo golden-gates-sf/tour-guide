@@ -1,34 +1,119 @@
 import React, { RefObject } from 'react';
+import DropListIcon from '../../img/droplist-2.png';
+import closeBtn from '../../img/close.png';
+import './select.css';
 
-const options = [
-  { value: 'europe', label: 'Europe' },
-  { value: 'usa', label: 'USA' },
-  { value: 'nature', label: 'Nature' },
-  { value: 'sea', label: 'Sea' },
-  { value: 'city', label: 'City' },
-  { value: 'mountains', label: 'Mountains' },
-  { value: 'australia', label: 'Australia' },
-  { value: 'luxury', label: 'Luxury' },
-];
+type option = { value: string; label: string };
 
-type SelectProps = {
-  propRef: RefObject<HTMLSelectElement>;
+export type SelectProps = {
+  options: option[];
+  getTags: any;
 };
 
-class Select extends React.Component<SelectProps> {
+interface SelectState {
+  isDroplistVisible: boolean;
+  isSearchOn: boolean;
+  searchSuggestions: option[];
+  cardTags: string[];
+}
+
+class Select extends React.Component<SelectProps, SelectState> {
   constructor(props: SelectProps) {
     super(props);
+
+    this.state = {
+      isDroplistVisible: false,
+      isSearchOn: false,
+      searchSuggestions: [],
+      cardTags: [],
+    };
   }
+
+  // handleKeyDown(e: KeyboardEvent) {
+  //   if (e.key === 'Enter') {
+  //     console.log('Enter pressed');
+  //   }
+  // }
 
   render() {
     return (
-      <select size={5} ref={this.props.propRef} multiple>
-        {options.map((el, i) => (
-          <option value={el.label} key={i}>
-            {el.label}
-          </option>
-        ))}
-      </select>
+      <div className="select-element">
+        <div className="select-field">
+          {this.state.cardTags.map((tagName) => (
+            <div className="chosen-categories">
+              <div className="chosen-categorie">
+                {this.props.options.find((el) => el.value === tagName)?.label}
+                <img
+                  src={closeBtn}
+                  className="cross-btn"
+                  onClick={() => {
+                    this.setState({
+                      cardTags: this.state.cardTags.filter((tag) => tag !== tagName),
+                    });
+                    this.props.getTags(this.state.cardTags);
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+          <input
+            className="select-input"
+            type="text"
+            placeholder="Select..."
+            onChange={(e) => {
+              let availableOptions: option[] = [];
+              this.props.options.forEach((el) => {
+                if (el.value.includes(e.target.value.toLowerCase())) {
+                  availableOptions.push(el);
+                }
+              });
+              this.setState({ isDroplistVisible: true, isSearchOn: true });
+              this.setState({ searchSuggestions: availableOptions });
+            }}
+          />
+
+          <div
+            className="select-button"
+            onClick={() => {
+              this.setState({ isDroplistVisible: !this.state.isDroplistVisible });
+            }}
+          >
+            <img src={DropListIcon} className="droplist-icon" />
+          </div>
+        </div>
+
+        {/* <p style={{
+            visibility: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "visible" : "hidden",
+            height: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "auto" : 0,
+            padding: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "8px 7px" : 0,
+          }}>No options...</p> */}
+
+        <select
+          className="select-droplist"
+          style={{
+            visibility: this.state.isDroplistVisible ? 'visible' : 'hidden',
+            height: this.state.isDroplistVisible ? '200px' : 0,
+          }}
+          onChange={(e) => {
+            if (!this.state.cardTags.includes(e.target.value))
+              this.setState({ cardTags: [...this.state.cardTags, e.target.value] });
+            this.props.getTags(this.state.cardTags);
+          }}
+          multiple={true}
+        >
+          {this.state.isSearchOn
+            ? this.state.searchSuggestions.map((option, i) => (
+                <option className="select-option" key={i} value={option.value}>
+                  {option.label}
+                </option>
+              ))
+            : this.props.options.map((el, i) => (
+                <option className="select-option" key={i} value={el.value}>
+                  {el.label}
+                </option>
+              ))}
+        </select>
+      </div>
     );
   }
 }

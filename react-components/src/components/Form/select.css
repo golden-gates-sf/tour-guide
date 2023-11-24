@@ -1,0 +1,89 @@
+.droplist-icon {
+    height: 22px;
+    width: 22px;
+    justify-self: center;
+    align-self: center;
+}
+
+.cross-btn {
+    height: 10px;
+    align-self: center;
+}
+
+.cross-btn:hover {
+    cursor: pointer;
+}
+
+.select-button {
+    width: 40px;
+    border: solid 2px;
+    border-left: none;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: none;
+    display: grid;
+}
+
+.select-button:hover {
+    cursor: pointer;
+}
+
+.select-field {
+    display: flex;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: solid 2px;
+}
+
+.chosen-categories {
+    padding: 8px 7px;
+    padding-right: 0;
+}
+
+.chosen-categorie {
+    background-color: cornflowerblue;
+    color: #fff;
+    border-radius: 4px;
+    padding: 3px 6px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.select-input {
+    width: 560px;
+    border: none;
+}
+
+.select-input:focus {
+    outline: none;
+}
+
+.select-droplist {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-top: none;
+    border-radius: 6px;
+    position: absolute;
+    height: 200px;
+    width: 600px;
+    z-index: 1000;  
+    visibility: hidden;
+    transition: all 0.3s ease-in;
+    overflow-y: auto;
+}
+
+.select-droplist p {
+    color: grey;
+}
+
+.select-option {
+    padding: 8px 7px;
+    transition: background-color 0.2s;
+}
+
+.select-option:hover {
+    background-color: rgba(255, 174, 0, 0.622);
+    cursor: pointer;
+}
