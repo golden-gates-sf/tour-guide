@@ -30,18 +30,12 @@ class Select extends React.Component<SelectProps, SelectState> {
     };
   }
 
-  // handleKeyDown(e: KeyboardEvent) {
-  //   if (e.key === 'Enter') {
-  //     console.log('Enter pressed');
-  //   }
-  // }
-
   render() {
     return (
       <div className="select-element">
         <div className="select-field">
-          {this.state.cardTags.map((tagName) => (
-            <div className="chosen-categories">
+          <div className="chosen-categories">
+            {this.state.cardTags.map((tagName) => (
               <div className="chosen-categorie">
                 {this.props.options.find((el) => el.value === tagName)?.label}
                 <img
@@ -57,8 +51,8 @@ class Select extends React.Component<SelectProps, SelectState> {
                   }}
                 />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
           <input
             className="select-input"
             type="text"
