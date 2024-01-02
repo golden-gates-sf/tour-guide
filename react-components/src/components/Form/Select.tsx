@@ -8,7 +8,7 @@ type option = { value: string; label: string };
 export type SelectProps = {
   options: option[];
   getTags: any;
-  submittedTags: string[];
+  availableTags: string[];
 };
 
 interface SelectState {
@@ -47,7 +47,7 @@ class Select extends React.Component<SelectProps, SelectState> {
                       cardTags: [...newTagsArr],
                     });
                     this.props.getTags([...newTagsArr]);
-                    if (this.props.submittedTags.length === 0) this.setState({ cardTags: [] });
+                    if (this.props.availableTags.length === 0) this.setState({ cardTags: [] });
                   }}
                 />
               </div>

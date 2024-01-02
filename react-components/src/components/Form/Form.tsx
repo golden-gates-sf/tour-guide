@@ -13,7 +13,7 @@ interface FormState {
   isDescriptionIncorrect: boolean;
   descriptionMessageError: boolean;
   cards: CardProps[];
-  submittedTags: string[];
+  availableTags: string[];
 }
 
 const selectOptions = [
@@ -27,7 +27,7 @@ const selectOptions = [
   { value: 'luxury', label: 'Luxury' },
   { value: 'tropics', label: 'Tropics' },
   { value: 'islands', label: 'Islands' },
-]
+];
 
 class Form extends React.Component<FormProps, FormState> {
   titleRef: RefObject<HTMLInputElement>;
@@ -46,18 +46,18 @@ class Form extends React.Component<FormProps, FormState> {
       isDescriptionIncorrect: true,
       descriptionMessageError: false,
       cards: [],
-      submittedTags: [],
+      availableTags: [],
     };
   }
 
   setTags = (tags: string[]) => {
-    this.setState({ submittedTags: tags });
-  }
+    this.setState({ availableTags: tags });
+  };
 
   clearForm = () => {
-    this.setState({ submittedTags: [] });
-    console.log(this.state.submittedTags);
-  }
+    this.setState({ availableTags: [] });
+    console.log(this.state.availableTags);
+  };
 
   render() {
     return (
@@ -78,7 +78,9 @@ class Form extends React.Component<FormProps, FormState> {
             images.length > 0
               ? (data.picture = URL.createObjectURL(images[0]))
               : (data.picture = DefaultPic);
-            data.categories = this.state.submittedTags.map(tag => selectOptions.find(el => el.value === tag)?.label || '');
+            data.categories = this.state.availableTags.map(
+              (tag) => selectOptions.find((el) => el.value === tag)?.label || ''
+            );
             const newArrCards = [...this.state.cards, data];
             this.setState({ cards: [...newArrCards] });
           }}
@@ -110,7 +112,11 @@ class Form extends React.Component<FormProps, FormState> {
             </div>
             <label>
               <span className="input-label">Categories:</span>
-              <Select options={selectOptions} getTags={this.setTags} submittedTags={ this.state.submittedTags} />
+              <Select
+                options={selectOptions}
+                getTags={this.setTags}
+                availableTags={this.state.availableTags}
+              />
             </label>
             <div className="input-container">
               <label>
@@ -155,9 +161,12 @@ class Form extends React.Component<FormProps, FormState> {
               //   this.clearForm();
               // }}
             />
-            <div className="success-message-container" style={{
-              visibility: 'hidden'
-            }}>
+            <div
+              className="success-message-container"
+              style={{
+                visibility: 'hidden',
+              }}
+            >
               <img src={SuccessTick} style={{ width: 20, height: 20 }} alt="Success" />
               <span className="success-message">Card is added</span>
             </div>
