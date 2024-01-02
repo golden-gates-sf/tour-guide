@@ -8,6 +8,7 @@ type option = { value: string; label: string };
 export type SelectProps = {
   options: option[];
   getTags: any;
+  submittedTags: string[];
 };
 
 interface SelectState {
@@ -47,10 +48,12 @@ class Select extends React.Component<SelectProps, SelectState> {
                   src={closeBtn}
                   className="cross-btn"
                   onClick={() => {
+                    const newTagsArr = [...this.state.cardTags].filter((tag) => tag !== tagName);
                     this.setState({
-                      cardTags: this.state.cardTags.filter((tag) => tag !== tagName),
+                      cardTags: [...newTagsArr],
                     });
-                    this.props.getTags(this.state.cardTags);
+                    this.props.getTags([...newTagsArr]);
+                    if (this.props.submittedTags.length === 0) this.setState({ cardTags: [] });
                   }}
                 />
               </div>
@@ -67,8 +70,11 @@ class Select extends React.Component<SelectProps, SelectState> {
                   availableOptions.push(el);
                 }
               });
-              this.setState({ isDroplistVisible: true, isSearchOn: true });
-              this.setState({ searchSuggestions: availableOptions });
+              this.setState({
+                isDroplistVisible: true,
+                isSearchOn: true,
+                searchSuggestions: availableOptions,
+              });
             }}
           />
 
@@ -81,11 +87,22 @@ class Select extends React.Component<SelectProps, SelectState> {
             <img src={DropListIcon} className="droplist-icon" />
           </div>
         </div>
-        <p className="no-options-p" style={{
-            visibility: this.state.searchSuggestions.length === 0 && this.state.isSearchOn && this.state.isDroplistVisible ? "visible" : "hidden",
-            height: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "auto" : 0,
-            padding: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? "8px 7px" : 0,
-          }}>No options...</p>
+        <p
+          className="no-options-p"
+          style={{
+            visibility:
+              this.state.searchSuggestions.length === 0 &&
+              this.state.isSearchOn &&
+              this.state.isDroplistVisible
+                ? 'visible'
+                : 'hidden',
+            height: this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? 'auto' : 0,
+            padding:
+              this.state.searchSuggestions.length === 0 && this.state.isSearchOn ? '8px 7px' : 0,
+          }}
+        >
+          No options...
+        </p>
         <select
           className="select-droplist"
           style={{
@@ -93,9 +110,12 @@ class Select extends React.Component<SelectProps, SelectState> {
             height: this.state.isDroplistVisible ? '200px' : 0,
           }}
           onChange={(e) => {
-            if (!this.state.cardTags.includes(e.target.value))
-              this.setState({ cardTags: [...this.state.cardTags, e.target.value] });
-            this.props.getTags(this.state.cardTags);
+            if (!this.state.cardTags.includes(e.target.value)) {
+              const newTagsArr = [...this.state.cardTags, e.target.value];
+              this.setState({ cardTags: [...newTagsArr] });
+              this.props.getTags([...newTagsArr]);
+              // this.inputRef.current.value = '';
+            }
           }}
           multiple={true}
         >

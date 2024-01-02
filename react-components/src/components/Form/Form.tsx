@@ -13,7 +13,7 @@ interface FormState {
   isDescriptionIncorrect: boolean;
   descriptionMessageError: boolean;
   cards: CardProps[];
-  selectedTags: string[];
+  submittedTags: string[];
 }
 
 const selectOptions = [
@@ -46,12 +46,17 @@ class Form extends React.Component<FormProps, FormState> {
       isDescriptionIncorrect: true,
       descriptionMessageError: false,
       cards: [],
-      selectedTags: [],
+      submittedTags: [],
     };
   }
 
   setTags = (tags: string[]) => {
-    this.setState({ selectedTags: tags });
+    this.setState({ submittedTags: tags });
+  }
+
+  clearForm = () => {
+    this.setState({ submittedTags: [] });
+    console.log(this.state.submittedTags);
   }
 
   render() {
@@ -73,7 +78,7 @@ class Form extends React.Component<FormProps, FormState> {
             images.length > 0
               ? (data.picture = URL.createObjectURL(images[0]))
               : (data.picture = DefaultPic);
-            data.categories = this.state.selectedTags.map(tag => selectOptions.find(el => el.value === tag)?.label || '');
+            data.categories = this.state.submittedTags.map(tag => selectOptions.find(el => el.value === tag)?.label || '');
             const newArrCards = [...this.state.cards, data];
             this.setState({ cards: [...newArrCards] });
           }}
@@ -105,7 +110,7 @@ class Form extends React.Component<FormProps, FormState> {
             </div>
             <label>
               <span className="input-label">Categories:</span>
-              <Select options={selectOptions} getTags={this.setTags} />
+              <Select options={selectOptions} getTags={this.setTags} submittedTags={ this.state.submittedTags} />
             </label>
             <div className="input-container">
               <label>
@@ -146,8 +151,13 @@ class Form extends React.Component<FormProps, FormState> {
               value="Submit"
               disabled={this.state.isTitleIncorrect || this.state.isDescriptionIncorrect}
               className="btn-submit"
+              // onClick={() => {
+              //   this.clearForm();
+              // }}
             />
-            <div className="success-message-container">
+            <div className="success-message-container" style={{
+              visibility: 'hidden'
+            }}>
               <img src={SuccessTick} style={{ width: 20, height: 20 }} alt="Success" />
               <span className="success-message">Card is added</span>
             </div>
